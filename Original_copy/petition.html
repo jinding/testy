@@ -1,13 +1,11 @@
 {% extends "./wrapper.html" %}{% load actionkit_tags %}
-Looky I made a change.
-<br>
-And another change?
+
 {% block content %}
 
 <form class="ak-form" name="act" method="POST" action="/act/" accept-charset="utf-8">
 <input type="hidden" name="page" value="{{ page.name }}">
 
-<h2>{{ page.title }}</h2>
+<h2>THIS IS THE TITLE - {{ page.title }}</h2>
 
 <div class="col end" id="petition-box">
     {% autoescape off %}
