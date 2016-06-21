@@ -1,0 +1,87 @@
+{% load actionkit_tags %}
+<!DOCTYPE html>
+<html lang="{{page.lang.iso_code|default:"en"}}"{% if page.lang.is_rtl %} dir="rtl"{% endif %}>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}{{ page.title }} | {% filter ak_text:"org_name" %}{% client_name %}{% endfilter %}{% endblock %}</title>
+  <script>startTime=new Date()</script>
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  {{ page.followup.share_title_tag }}
+  {% if form.id %}<meta name="description" property="og:description" content="{% block description %}{{ page.followup.share_description_value }}{% endblock %}">{% endif %}
+  {{ page.followup.share_image_tag }}
+  {{ page.followup.share_url_tag }}
+  <meta property="og:site_name" content="{% filter ak_text:"org_name" %}{% client_name %}{% endfilter %}">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" value="summary">
+  {% block meta_additions %}{% endblock %}
+
+  {% load_css %}
+  /static/css/blueprint/bundle.css
+  /resources/actionkit.css
+  /resources/ak-look-2014.css
+  {% end %}
+  {% block css_additions %}{% endblock %}
+  
+  {% load_ak_context context %}
+  {% load_js %}
+  //ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js
+  /resources/actionkit.js
+  {% end %}
+  {% block script_additions %}{% endblock %}
+</head>
+<body class="{{ filename|split:'.'|nth:0 }}-page lang-{{page.lang.iso_code|default:"unknown"}}{% if page.lang.is_rtl %} ak-rtl{% endif %} ak-no-js">
+<script type="text/javascript">actionkit.forms.initPage()</script>
+
+<div class="container">
+
+<div class="header">
+<h1>{% filter ak_text:"org_name" %}{% client_name %}{% endfilter %}</h1>
+{% include "./language_picker.html" %}
+<div class="nav"></div>
+</div>
+
+{% block content %}{% endblock %}
+
+{% block below_form %}
+<script type="text/javascript">
+actionkit.forms.contextRoot = '/context/';
+actionkit.forms.initForm('act');
+</script>
+{% endblock %}
+
+{% if analytics_key %}
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', '{{ analytics_key }}']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript';
+ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' :
+'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+{% endif %}
+
+
+<div class="footer-holder">
+<div class="footer">
+<span>{% filter ak_text:"org_name" %}{% client_name %}{% endfilter %}</span>
+<span><a href="//example.com/privacy/">{{ 'Privacy'|ak_text:'privacy' }}</a></span>
+<span><a href="//example.com/contact/">{{ 'Contact'|ak_text:'contact' }}</a></span>
+</div>
+</div>
+
+</div>
+
+</body>
+</html>
+
